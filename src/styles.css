@@ -307,6 +307,10 @@ footer > span { margin-left: auto; font-size: .8rem; color: var(--color-muted-fo
   .product-pack { width: 190px; }
 }
 
+@media (min-width: 768px) {
+  .site-header > .icon-button { display: none; }
+}
+
 @media (max-width: 640px) {
   .site-header { min-height: 68px; padding-inline: 1rem; }
   .hero-section { min-height: 720px; }
