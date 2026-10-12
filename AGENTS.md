@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep PawKind as a single-page, frontend-only product concept with demo commerce and app interactions, because real accounts, orders, and payments are intentionally out of scope.
