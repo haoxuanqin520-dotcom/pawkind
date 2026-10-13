@@ -373,3 +373,12 @@ footer > span { margin-left: auto; font-size: .8rem; color: var(--color-muted-fo
   footer { flex-direction: column; align-items: flex-start; gap: .75rem; }
   footer > span { margin-left: 0; }
 }
+
+.version-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; flex: 1; max-width: 720px; }
+.version-card { display: flex; flex-direction: column; gap: .6rem; text-align: left; padding: 1.25rem; border: 1px solid var(--border); border-radius: 1.25rem; background: var(--card); color: var(--card-foreground); cursor: pointer; transition: border-color .2s, transform .2s; }
+.version-card:hover, .version-card:focus-visible { border-color: var(--primary); transform: translateY(-2px); }
+.version-card strong { font: 800 1.35rem/1.15 var(--font-display); }
+.version-card small { display: flex; gap: .4rem; align-items: center; color: var(--muted-foreground); font-size: .875rem; }
+.version-card small svg, .version-card em svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+.version-card em { display: flex; gap: .35rem; align-items: center; font-style: normal; font-weight: 700; color: var(--primary); margin-top: auto; }
+@media (max-width: 640px) { .version-choices { grid-template-columns: 1fr; width: 100%; } }

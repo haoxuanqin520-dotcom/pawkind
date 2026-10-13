@@ -10,5 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Keep PawKind as a single-page, frontend-only product concept with demo commerce and app interactions, because real accounts, orders, and payments are intentionally out of scope.
-- Keep the trial experiment in a separate in-page view entered from the homepage; retain one browser-local assignment and idempotent funnel flags so the concept demonstrates random allocation without exposing both messages or collecting personal data.
+- Keep the trial experiment in a separate in-page view entered from the homepage; visitors choose version A or B from the homepage; keep one browser-local session with idempotent funnel flags and never collect personal data.
 - Keep illustrative results separate from browser-local demo metrics and export both with explicit demo labels, because neither represents a real cross-participant experiment.

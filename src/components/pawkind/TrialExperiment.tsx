@@ -4,18 +4,19 @@ import heroImage from "@/assets/pawkind-hero.jpg";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PawKindLogo } from "./PawKindLogo";
-import { assignTrial, parseTrial, recordTrial, trialMetrics, TRIAL_STORAGE_KEY, type TrialSession } from "./trial-demo";
+import { type TrialVariant, parseTrial, recordTrial, trialMetrics, TRIAL_STORAGE_KEY, type TrialSession } from "./trial-demo";
 
-export function TrialExperiment({ onBack }: { onBack: () => void }) {
+export function TrialExperiment({ onBack, variant }: { onBack: () => void; variant: TrialVariant }) {
   // This component mounts only after a browser interaction, never during SSR.
   const [session, setSession] = useState<TrialSession>(() => {
-    try { return parseTrial(localStorage.getItem(TRIAL_STORAGE_KEY)) ?? assignTrial(); }
-    catch { return assignTrial(); }
+    const fresh: TrialSession = { variant, clicked: false, completed: false };
+    try { const stored = parseTrial(localStorage.getItem(TRIAL_STORAGE_KEY)); return stored?.variant === variant ? stored : fresh; }
+    catch { return fresh; }
   });
   const [saved, setSaved] = useState(() => {
     try {
       const existing = parseTrial(localStorage.getItem(TRIAL_STORAGE_KEY));
-      if (!existing) localStorage.setItem(TRIAL_STORAGE_KEY, JSON.stringify(session));
+      if (existing?.variant !== variant) localStorage.setItem(TRIAL_STORAGE_KEY, JSON.stringify(session));
       return true;
     } catch { return false; }
   });
