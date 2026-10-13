@@ -6,6 +6,8 @@ import heroImage from "@/assets/pawkind-hero.jpg";
 import { PawKindLogo } from "@/components/pawkind/PawKindLogo";
 import { PetAppDemo } from "@/components/pawkind/PetAppDemo";
 import { ProductCard } from "@/components/pawkind/ProductCard";
+import { TrialExperiment, TrialResults } from "@/components/pawkind/TrialExperiment";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,7 +40,12 @@ const questions = [
 
 function PawKindPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [trialOpen, setTrialOpen] = useState(false);
+  const [resultsOpen, setResultsOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+  const startTrial = () => { setTrialOpen(true); window.scrollTo({ top: 0, behavior: "instant" }); };
+
+  if (trialOpen) return <TrialExperiment onBack={() => { setTrialOpen(false); window.scrollTo({ top: 0, behavior: "instant" }); }} />;
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
@@ -47,7 +54,7 @@ function PawKindPage() {
         <nav className="hidden items-center gap-8 text-sm font-semibold md:flex" aria-label="Main navigation">
           <a href="#how">How it works</a><a href="#research">Research</a><a href="#app">The app</a><a href="#packs">Packs</a>
         </nav>
-        <a href="#packs" className="header-cta hidden sm:inline-flex">Try it · S$9.90</a>
+        <Button className="hidden min-h-12 sm:inline-flex" onClick={startTrial}>Try PawKind · S$9.90</Button>
         <button className="icon-button md:hidden" type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen((value) => !value)}>
           {menuOpen ? <X /> : <Menu />}
         </button>
@@ -62,11 +69,16 @@ function PawKindPage() {
           <h1>Good for pets.<br /><span>Kinder</span> for the planet.</h1>
           <p className="hero-copy">Complete dry food for dogs and cats, made with Black Soldier Fly protein. Real nutrition first, with a lighter footprint built in.</p>
           <div className="flex flex-wrap gap-3">
-            <a className="primary-cta" href="#packs">Try 300 g · S$9.90 <ArrowRight className="size-4" /></a>
+            <Button size="lg" className="min-h-14" onClick={startTrial}>Try PawKind · S$9.90 <ArrowRight className="size-4" /></Button>
             <a className="secondary-cta" href="#app">Explore the app</a>
           </div>
           <div className="hero-proof"><span><CheckCircle2 /> Adult dog & cat recipes</span><span><QrCode /> Traceable bag concept</span><span><Leaf /> Planned 15–20% BSF protein</span></div>
         </div>
+      </section>
+
+      <section id="trial" className="trial-entry">
+        <div><p className="script-note">A kinder first bowl</p><h2>Try PawKind.</h2><p>Explore our 300 g trial pack concept at S$9.90.</p><p className="demo-note">Demo experience · no real application, order or payment.</p></div>
+        <Button size="lg" className="min-h-12" onClick={startTrial}>Try PawKind <ArrowRight /></Button>
       </section>
 
       <section id="how" className="content-section">
@@ -110,9 +122,10 @@ function PawKindPage() {
 
       <section className="impact-band"><div><span>12</span><p><strong>Responsible production</strong>Food by-products become useful protein.</p></div><div><span>13</span><p><strong>Climate action</strong>Less reliance on livestock protein.</p></div><div><span>09</span><p><strong>Industry innovation</strong>A traceable farm-to-bag chain.</p></div></section>
 
-      <section className="final-cta"><p className="script-note">A kinder first bowl</p><h2>Start with 300 grams.<br />See what your pet thinks.</h2><a className="light-cta" href="#packs">Explore the Trial Pack <ArrowRight className="size-4" /></a></section>
+      <section className="final-cta"><p className="script-note">A kinder first bowl</p><h2>Start with 300 grams.<br />See what your pet thinks.</h2><Button variant="secondary" size="lg" className="min-h-12" onClick={startTrial}>Try PawKind <ArrowRight className="size-4" /></Button></section>
 
-      <footer><PawKindLogo compact /><p>Good for Pets. Kinder for the Planet.</p><span>Singapore · Concept prototype</span></footer>
+      <footer><PawKindLogo compact /><p>Good for Pets. Kinder for the Planet.</p><Button variant="link" onClick={() => setResultsOpen(true)}>A/B demo results</Button><span>Singapore · Concept prototype</span></footer>
+      <TrialResults open={resultsOpen} onOpenChange={setResultsOpen} />
     </main>
   );
 }
