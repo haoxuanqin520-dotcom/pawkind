@@ -94,7 +94,7 @@ export function PetAppDemo() {
                 <div className="grid grid-cols-3 gap-2">
                   {(["low", "normal", "high"] as ActivityLevel[]).map((item) => (
                     <button className="activity-button" key={item} type="button" aria-pressed={activity === item} onClick={() => setActivity(item)}>
-                      {item[0].toUpperCase() + item.slice(1)}
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
                     </button>
                   ))}
                 </div>
