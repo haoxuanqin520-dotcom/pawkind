@@ -40,12 +40,13 @@ const questions = [
 
 function PawKindPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [trialOpen, setTrialOpen] = useState(false);
+  const [trialOpen, setTrialOpen] = useState<"A" | "B" | null>(null);
   const [resultsOpen, setResultsOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
-  const startTrial = () => { setTrialOpen(true); window.scrollTo({ top: 0, behavior: "instant" }); };
+  const startTrial = () => document.getElementById("trial")?.scrollIntoView({ behavior: "smooth" });
+  const openVersion = (v: "A" | "B") => { setTrialOpen(v); window.scrollTo({ top: 0, behavior: "instant" }); };
 
-  if (trialOpen) return <TrialExperiment onBack={() => { setTrialOpen(false); window.scrollTo({ top: 0, behavior: "instant" }); }} />;
+  if (trialOpen) return <TrialExperiment variant={trialOpen} onBack={() => { setTrialOpen(null); window.scrollTo({ top: 0, behavior: "instant" }); }} />;
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
@@ -78,7 +79,10 @@ function PawKindPage() {
 
       <section id="trial" className="trial-entry">
         <div><p className="script-note">A kinder first bowl</p><h2>Try PawKind.</h2><p>Explore our 300 g trial pack concept at S$9.90.</p><p className="demo-note">Demo experience · no real application, order or payment.</p></div>
-        <Button size="lg" className="min-h-12" onClick={startTrial}>Try PawKind <ArrowRight /></Button>
+        <div className="version-choices">
+          <button type="button" className="version-card" onClick={() => openVersion("A")}><span className="eyebrow">Version A · Sustainability</span><strong>A kinder bowl. A lighter footprint.</strong><small><Leaf /> Circular protein &amp; environmental value</small><em>Enter version A <ArrowRight /></em></button>
+          <button type="button" className="version-card" onClick={() => openVersion("B")}><span className="eyebrow">Version B · Nutrition &amp; Trust</span><strong>Nutrition first. Trust in every bowl.</strong><small><ShieldCheck /> Ingredient transparency &amp; careful transition</small><em>Enter version B <ArrowRight /></em></button>
+        </div>
       </section>
 
       <section id="how" className="content-section">
