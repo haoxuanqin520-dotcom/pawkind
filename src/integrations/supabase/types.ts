@@ -14,13 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      trial_counters: {
+        Row: {
+          clicks: number
+          completions: number
+          variant: string
+          views: number
+        }
+        Insert: {
+          clicks?: number
+          completions?: number
+          variant: string
+          views?: number
+        }
+        Update: {
+          clicks?: number
+          completions?: number
+          variant?: string
+          views?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      record_trial_event: {
+        Args: { _event: string; _variant: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
