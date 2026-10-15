@@ -25,7 +25,7 @@ export function TrialExperiment({ onBack, variant }: { onBack: () => void; varia
   const [liveCount, setLiveCount] = useState<number | null>(null);
 
   useEffect(() => {
-    void supabase.rpc("record_trial_event", { _variant: session.variant, _event: "view" });
+    void supabase.rpc("record_trial_event", { _variant: session.variant, _event: "view" }).then();
     void supabase.from("trial_counters").select("clicks").eq("variant", session.variant).single()
       .then(({ data }) => { if (data) setLiveCount(data.clicks); });
   }, [session.variant]);
@@ -35,7 +35,7 @@ export function TrialExperiment({ onBack, variant }: { onBack: () => void; varia
     setSession(next);
     try { localStorage.setItem(TRIAL_STORAGE_KEY, JSON.stringify(next)); }
     catch { setSaved(false); }
-    void supabase.rpc("record_trial_event", { _variant: next.variant, _event: event === "click" ? "click" : "complete" });
+    void supabase.rpc("record_trial_event", { _variant: next.variant, _event: event === "click" ? "click" : "complete" }).then();
     if (event === "click") setLiveCount((n) => (n === null ? null : n + 1));
   }
 
