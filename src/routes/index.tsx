@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, ChevronRight, Leaf, Menu, QrCode, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronRight, Leaf, Menu, QrCode, ShieldCheck, Soup, RefreshCw, X } from "lucide-react";
 import { useState } from "react";
 
 import heroImage from "@/assets/pawkind-hero.jpg";
@@ -8,6 +8,7 @@ import { PetAppDemo } from "@/components/pawkind/PetAppDemo";
 import { ProductCard } from "@/components/pawkind/ProductCard";
 import { TrialExperiment, TrialResults } from "@/components/pawkind/TrialExperiment";
 import { Button } from "@/components/ui/button";
+import { PawKindFooter } from "@/components/pawkind/PawKindFooter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,8 +46,9 @@ function PawKindPage() {
   const closeMenu = () => setMenuOpen(false);
   const startTrial = () => document.getElementById("trial")?.scrollIntoView({ behavior: "smooth" });
   const openVersion = (v: "A" | "B") => { setTrialOpen(v); window.scrollTo({ top: 0, behavior: "instant" }); };
+  const returnHome = (section?: string) => { setTrialOpen(null); requestAnimationFrame(() => { if (section) document.getElementById(section)?.scrollIntoView({ behavior: "smooth" }); else window.scrollTo({ top: 0, behavior: "instant" }); }); };
 
-  if (trialOpen) return <TrialExperiment variant={trialOpen} onBack={() => { setTrialOpen(null); window.scrollTo({ top: 0, behavior: "instant" }); }} />;
+  if (trialOpen) return <TrialExperiment key={trialOpen} variant={trialOpen} onBack={returnHome} onVersion={openVersion} onSection={returnHome} />;
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
@@ -78,10 +80,11 @@ function PawKindPage() {
       </section>
 
       <section id="trial" className="trial-entry">
-        <div><p className="script-note">A kinder first bowl</p><h2>Try PawKind.</h2><p>Explore our 300 g trial pack concept at S$9.90.</p><p className="demo-note">Demo experience · no real application, order or payment.</p></div>
+        <div className="trial-entry-heading"><p className="script-note">A kinder first bowl</p><h2>Try PawKind.</h2><p>Explore our 300 g trial pack concept at S$9.90.</p></div>
+        <p className="version-instruction">Choose a version to explore PawKind</p>
         <div className="version-choices">
-          <button type="button" className="version-card" onClick={() => openVersion("A")}><span className="eyebrow">Version A · Sustainability</span><strong>A kinder bowl. A lighter footprint.</strong><small><Leaf /> Circular protein &amp; environmental value</small><em>Enter version A <ArrowRight /></em></button>
-          <button type="button" className="version-card" onClick={() => openVersion("B")}><span className="eyebrow">Version B · Nutrition &amp; Trust</span><strong>Nutrition first. Trust in every bowl.</strong><small><ShieldCheck /> Ingredient transparency &amp; careful transition</small><em>Enter version B <ArrowRight /></em></button>
+          <Button variant="ghost" className="version-card version-a" onClick={() => openVersion("A")} aria-label="Enter Version A · Sustainability"><span className="version-card-top"><span className="version-badge">VERSION A</span><span className="version-motif" aria-hidden="true"><RefreshCw /><Leaf /></span></span><span className="version-category">Sustainability</span><strong>A kinder bowl.<br />A lighter footprint.</strong><small>Circular protein &amp; environmental value</small><span className="version-enter">Enter Version A <ArrowRight /></span></Button>
+          <Button variant="ghost" className="version-card version-b" onClick={() => openVersion("B")} aria-label="Enter Version B · Nutrition & Trust"><span className="version-card-top"><span className="version-badge">VERSION B</span><span className="version-motif" aria-hidden="true"><Soup /><ShieldCheck /></span></span><span className="version-category">Nutrition &amp; Trust</span><strong>Nutrition first.<br />Trust in every bowl.</strong><small>Ingredient transparency &amp; careful transition</small><span className="version-enter">Enter Version B <ArrowRight /></span></Button>
         </div>
       </section>
 
@@ -109,7 +112,7 @@ function PawKindPage() {
 
       <section id="app" className="app-band">
         <div className="app-layout">
-          <div className="app-copy"><p className="script-note">Try the prototype</p><h2>Your pet gets a passport. Every bag gets one too.</h2><p>Change Mochi's details and the portion, switch plan and trial-pack coverage update instantly. Then open Trace to follow a sample bag back through its supply chain.</p><div className="feature-list"><div><ShieldCheck /><span><strong>Pet-first guidance</strong>Safety checks flag pets who need a vet's advice.</span></div><div><QrCode /><span><strong>Traceable by design</strong>Sample supplier, batch and lab records in one place.</span></div><div><Leaf /><span><strong>Impact made visible</strong>Planned tools connect each bowl to its footprint.</span></div></div><p className="demo-note">Concept prototype · no account, order or payment is created.</p></div>
+            <div className="app-copy"><p className="script-note">Try the prototype</p><h2>Your pet gets a passport. Every bag gets one too.</h2><p>Change Mochi's details and the portion, switch plan and trial-pack coverage update instantly. Then open Trace to follow a sample bag back through its supply chain.</p><div className="feature-list"><div><ShieldCheck /><span><strong>Pet-first guidance</strong>Safety checks flag pets who need a vet's advice.</span></div><div><QrCode /><span><strong>Traceable by design</strong>Sample supplier, batch and lab records in one place.</span></div><div><Leaf /><span><strong>Impact made visible</strong>Planned tools connect each bowl to its footprint.</span></div></div></div>
           <div className="flex justify-center"><PetAppDemo /></div>
         </div>
       </section>
@@ -121,14 +124,13 @@ function PawKindPage() {
           <ProductCard name="Standard" weight="1.5 kg" price="S$34.90" unitPrice="S$23.27 / kg" description="About 10 days for an 8 kg adult dog." tone="green" />
           <ProductCard name="Family" weight="5 kg" price="S$99.90" unitPrice="S$19.98 / kg" description="About 34 days for an 8 kg adult dog." tone="gold" badge="Best value" />
         </div>
-        <p className="demo-note mx-auto mt-6 text-center">Product buttons are part of this concept demo. No order or payment is created.</p>
       </section>
 
-      <section className="impact-band"><div><span>12</span><p><strong>Responsible production</strong>Food by-products become useful protein.</p></div><div><span>13</span><p><strong>Climate action</strong>Less reliance on livestock protein.</p></div><div><span>09</span><p><strong>Industry innovation</strong>A traceable farm-to-bag chain.</p></div></section>
+      <section className="impact-band" aria-label="Sustainable Development Goals"><div><span className="sdg-tile sdg-production">12</span><p><strong>SDG 12 · Responsible Consumption &amp; Production</strong>Food by-products become useful protein.</p></div><div><span className="sdg-tile sdg-climate">13</span><p><strong>SDG 13 · Climate Action</strong>Less reliance on livestock protein.</p></div><div><span className="sdg-tile sdg-innovation">9</span><p><strong>SDG 9 · Industry, Innovation &amp; Infrastructure</strong>A traceable farm-to-bag chain.</p></div></section>
 
       <section className="final-cta"><p className="script-note">A kinder first bowl</p><h2>Start with 300 grams.<br />See what your pet thinks.</h2><Button variant="secondary" size="lg" className="min-h-12" onClick={startTrial}>Try PawKind <ArrowRight className="size-4" /></Button></section>
 
-      <footer><PawKindLogo compact /><p>Good for Pets. Kinder for the Planet.</p><Button variant="link" onClick={() => setResultsOpen(true)}>A/B demo results</Button><span>Singapore · Concept prototype</span></footer>
+      <PawKindFooter onVersion={openVersion} onResults={() => setResultsOpen(true)} />
       <TrialResults open={resultsOpen} onOpenChange={setResultsOpen} />
     </main>
   );
