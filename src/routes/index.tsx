@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, ChevronRight, Leaf, Menu, QrCode, ShieldCheck, Soup, RefreshCw, X } from "lucide-react";
 import { useState } from "react";
 
-import heroImage from "@/assets/pawkind-hero.jpg";
+import heroImage from "@/assets/pawkind-dog-hero.jpg";
 import { PawKindLogo } from "@/components/pawkind/PawKindLogo";
 import { PetAppDemo } from "@/components/pawkind/PetAppDemo";
 import { ProductCard } from "@/components/pawkind/ProductCard";
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "PawKind · Good for Pets. Kinder for the Planet." },
-      { name: "description", content: "Complete dry food for dogs and cats made with Black Soldier Fly protein. Explore PawKind's 300 g trial pack and interactive nutrition prototype." },
+      { name: "description", content: "Complete dry food for adult dogs made with Black Soldier Fly protein. Explore PawKind's 300 g trial pack and interactive nutrition prototype." },
       { property: "og:title", content: "PawKind · Good for Pets. Kinder for the Planet." },
       { property: "og:description", content: "A kinder kind of pet food, made with Black Soldier Fly protein and built around what pets need first." },
       { property: "og:type", content: "website" },
@@ -28,12 +28,12 @@ const processSteps = [
   ["01", "Food by-products", "Useful nutrients get a second life instead of becoming waste."],
   ["02", "Black Soldier Fly", "Larvae efficiently turn those nutrients into quality protein."],
   ["03", "Insect protein", "The larvae are dried and milled into a nutrient-rich meal."],
-  ["04", "Complete kibble", "Balanced recipes are made for adult dogs and cats."],
+  ["04", "Complete kibble", "Balanced recipes are made for adult dogs."],
   ["05", "Happier bowls", "Familiar food for them, with a lighter footprint for us."],
 ];
 
 const questions = [
-  ["Is it good for my pet?", "Pet Passport + Nutrition Plan", "A profile built around species, age, weight, activity and sensitivities helps create a safer starting point."],
+  ["Is it good for my pet?", "Pet Passport + Nutrition Plan", "A profile built around age, weight, activity and sensitivities helps create a safer starting point."],
   ["Will my pet eat it?", "Trial Pack + 7-day switch", "Start with 300 g rather than a large bag, then introduce PawKind gently over seven days."],
   ["Can I trust the claims?", "Trace", "A unique bag code connects the insect supplier lot, manufacturing batch and sample lab checks."],
   ["Why should I switch?", "Pawprint · planned", "Pet needs come first. Once the food works for them, Pawprint will make the avoided footprint visible."],
@@ -65,17 +65,17 @@ function PawKindPage() {
       </header>
 
       <section id="top" className="hero-section">
-        <img src={heroImage} alt="A West Highland terrier and grey cat beside a PawKind food pouch" width={1400} height={1200} className="hero-image" />
+        <img src={heroImage} alt="A West Highland terrier beside a PawKind food pouch" width={1400} height={1200} className="hero-image" />
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="script-note">Made for curious pets in Singapore</p>
           <h1>Good for pets.<br /><span>Kinder</span> for the planet.</h1>
-          <p className="hero-copy">Complete dry food for dogs and cats, made with Black Soldier Fly protein. Real nutrition first, with a lighter footprint built in.</p>
+          <p className="hero-copy">Complete dry food for adult dogs, made with Black Soldier Fly protein. Real nutrition first, with a lighter footprint built in.</p>
           <div className="flex flex-wrap gap-3">
             <Button size="lg" className="min-h-14" onClick={startTrial}>Try PawKind · S$9.90 <ArrowRight className="size-4" /></Button>
             <a className="secondary-cta" href="#app">Explore the app</a>
           </div>
-          <div className="hero-proof"><span><CheckCircle2 /> Adult dog & cat recipes</span><span><QrCode /> Traceable bag concept</span><span><Leaf /> Planned 15–20% BSF protein</span></div>
+          <div className="hero-proof"><span><CheckCircle2 /> Adult dog recipe</span><span><QrCode /> Traceable bag concept</span><span><Leaf /> Planned 15–20% BSF protein</span></div>
         </div>
       </section>
 
@@ -118,7 +118,7 @@ function PawKindPage() {
       </section>
 
       <section id="packs" className="content-section packs-section">
-        <div className="section-heading"><p className="script-note">Start small</p><h2>Let them taste it before you commit.</h2><p>Separate adult dog and cat recipes. Start with the 300 g trial, then size up when your pet is ready.</p></div>
+        <div className="section-heading"><p className="script-note">Start small</p><h2>Let them taste it before you commit.</h2><p>An adult dog recipe. Start with the 300 g trial, then size up when your pet is ready.</p></div>
         <div className="product-grid">
           <ProductCard name="Trial Pack" weight="300 g" price="S$9.90" unitPrice="S$33.00 / kg" description="Enough to begin the 7-day switch." tone="pink" badge="Start here" featured />
           <ProductCard name="Standard" weight="1.5 kg" price="S$34.90" unitPrice="S$23.27 / kg" description="About 10 days for an 8 kg adult dog." tone="green" />

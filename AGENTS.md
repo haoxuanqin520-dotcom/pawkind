@@ -14,3 +14,4 @@
 - Keep illustrative results separate from browser-local demo metrics and export both with explicit demo labels, because neither represents a real cross-participant experiment.
 - Reuse PawKindFooter across homepage and in-page trial views; keep one native Button activation target per version card with a visual CTA span, avoiding nested interactive controls.
 - Keep variant product imagery and the circular-food illustration in focused browser-safe presentation components; in-page variant switches remount the trial view to restore the chosen variant session correctly.
+- Use the shared supported-recipes catalog for trial recipe choices; nutrition guidance in the pet prototype targets that supported species rather than retaining unsupported species branches.
