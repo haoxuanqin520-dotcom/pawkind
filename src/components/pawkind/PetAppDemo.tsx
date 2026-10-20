@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 type Screen = "passport" | "plan" | "trace";
-type Species = "dog" | "cat";
 type ActivityLevel = "low" | "normal" | "high";
 
 const traceSteps = [
@@ -24,7 +23,6 @@ const traceSteps = [
 
 export function PetAppDemo() {
   const [screen, setScreen] = useState<Screen>("passport");
-  const [species, setSpecies] = useState<Species>("dog");
   const [name, setName] = useState("Mochi");
   const [age, setAge] = useState("4");
   const [weight, setWeight] = useState("8");
@@ -37,15 +35,13 @@ export function PetAppDemo() {
     const parsedWeight = Number.parseFloat(weight);
     const validWeight = Number.isFinite(parsedWeight) && parsedWeight > 0;
     const kg = validWeight ? Math.min(parsedWeight, 90) : 0;
-    const factors = species === "dog"
-      ? { low: 1.4, normal: 1.6, high: 2 }
-      : { low: 1, normal: 1.2, high: 1.4 };
+    const factors = { low: 1.4, normal: 1.6, high: 2 };
     const kcal = validWeight ? Math.round(70 * Math.pow(kg, 0.75) * factors[activity]) : 0;
     const grams = validWeight ? Math.round(kcal / 3.6) : 0;
     return { kcal, grams, hold: pregnant || vetDiet || Number.parseFloat(age) < 1 };
-  }, [activity, age, pregnant, species, vetDiet, weight]);
+  }, [activity, age, pregnant, vetDiet, weight]);
 
-  const possessive = `${name.trim() || (species === "dog" ? "Your dog" : "Your cat")}${name.trim().endsWith("s") ? "'" : "'s"}`;
+  const possessive = `${name.trim() || "Your dog"}${name.trim().endsWith("s") ? "'" : "'s"}`;
 
   return (
     <div className="pet-phone" aria-label="Interactive PawKind app prototype">
@@ -62,16 +58,8 @@ export function PetAppDemo() {
             <div className="space-y-5 p-5">
               <div>
                 <p className="eyebrow">Pet passport</p>
-                <h3 className="mt-1 font-display text-3xl font-extrabold">Tell us about your pet.</h3>
+                <h3 className="mt-1 font-display text-3xl font-extrabold">Tell us about your dog.</h3>
                 <p className="mt-2 text-sm text-muted-foreground">A few details make every recommendation safer and more useful.</p>
-              </div>
-
-              <div className="segmented" aria-label="Pet species">
-                {(["dog", "cat"] as Species[]).map((item) => (
-                  <button key={item} type="button" aria-pressed={species === item} onClick={() => setSpecies(item)}>
-                    {item === "dog" ? "Dog" : "Cat"}
-                  </button>
-                ))}
               </div>
 
               <label className="app-field">
