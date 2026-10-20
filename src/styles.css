@@ -421,6 +421,7 @@ footer > span { margin-left: auto; font-size: .8rem; color: var(--color-muted-fo
 .trial-story-copy { display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; min-width: 0; }
 .trial-story h2, .trial-lifestyle h2 { margin: 0; font: 800 2.75rem/1.1 var(--font-display); }
 .trial-story .trial-message { min-height: 0; color: var(--foreground); }
+.trial-page .script-note { color: var(--primary); }
 .trial-story-figure { margin: 0; }
 .trial-story-figure img { width: 100%; display: block; }
 .trial-story-figure figcaption { font-size: .875rem; line-height: 1.6; margin-top: .75rem; color: var(--foreground); }
