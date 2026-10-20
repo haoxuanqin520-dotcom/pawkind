@@ -1,4 +1,5 @@
 # PawKind A/B demo
+- [ ] Remove all cat imagery, copy and recipe/species options; keep dog-only demo guidance.
 - [ ] Enlarge and restyle version entry cards with accessible full-card interaction.
 - [ ] Add product-first version views and distinct sustainability / trust imagery.
 - [ ] Clarify SDG badges and consolidate the footer.
