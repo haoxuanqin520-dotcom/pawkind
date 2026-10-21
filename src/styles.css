@@ -342,6 +342,10 @@ footer > span { margin-left: auto; font-size: .8rem; color: var(--color-muted-fo
   .product-grid { grid-template-columns: 1fr; }
   .product-card { min-height: auto; }
   .product-pack { width: 190px; }
+  .hero-section { display: flex; min-height: 0; flex-direction: column; }
+  .hero-image { position: static; inset: auto; order: 3; width: 100%; height: clamp(300px, 82vw, 720px); object-fit: cover; object-position: 50% 55%; }
+  .hero-content { order: 1; min-height: 0; flex: 1; justify-content: center; padding: 2.5rem 1.25rem 1.75rem; }
+  .hero-overlay { display: block; position: static; inset: auto; order: 2; z-index: 3; width: 100%; height: 72px; margin-bottom: -72px; background: linear-gradient(180deg, var(--color-background) 0%, color-mix(in oklab, var(--color-background) 55%, transparent) 55%, transparent 100%); }
 }
 
 @media (min-width: 768px) {
@@ -360,10 +364,6 @@ footer > span { margin-left: auto; font-size: .8rem; color: var(--color-muted-fo
   .trial-details { grid-template-columns: 1fr; gap: 1.25rem; padding: 2rem 1rem; }
   .trial-table th, .trial-table td { padding: .75rem .3rem; font-size: .75rem; }
   .site-header { min-height: 68px; padding-inline: 1rem; }
-  .hero-section { display: flex; min-height: 0; flex-direction: column; }
-  .hero-image { position: static; order: 2; width: 100%; height: 300px; object-fit: cover; object-position: 50% 55%; }
-  .hero-overlay { display: none; }
-  .hero-content { order: 1; min-height: 0; flex: 1; justify-content: center; padding: 2.5rem 1.25rem 1.75rem; }
   .hero-content h1 { font-size: 3.3rem; }
   .hero-copy { max-width: 95%; font-size: 1rem; }
   .hero-proof { display: none; }
