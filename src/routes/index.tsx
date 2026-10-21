@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, ChevronRight, Leaf, Menu, QrCode, ShieldCheck, Soup, RefreshCw, X } from "lucide-react";
 import { useState } from "react";
 
-import heroImage from "@/assets/pawkind-dog-hero.jpg";
+import heroImage from "@/assets/pawkind-dogs-hero.jpg";
 import { PawKindLogo } from "@/components/pawkind/PawKindLogo";
 import { PetAppDemo } from "@/components/pawkind/PetAppDemo";
 import { ProductCard } from "@/components/pawkind/ProductCard";
@@ -65,7 +65,7 @@ function PawKindPage() {
       </header>
 
       <section id="top" className="hero-section">
-        <img src={heroImage} alt="A West Highland terrier beside a PawKind food pouch" width={1400} height={1200} className="hero-image" />
+        <img src={heroImage} alt="A West Highland terrier and a Cavalier spaniel sitting beside a PawKind food pouch" width={1152} height={928} className="hero-image" />
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="script-note">Made for curious pets in Singapore</p>
