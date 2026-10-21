@@ -7,3 +7,4 @@
 - [x] Add isolated trial experience with stable random assignment and matching controls.
 - [x] Add demo application and browser-local results table.
 - [x] Verify both versions, repeat visits, application flow and mobile layout.
+- [x] Replace the homepage hero with a two-dog photo placed clear of the headline, so neither dog is hidden.
