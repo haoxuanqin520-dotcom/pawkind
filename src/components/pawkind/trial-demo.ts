@@ -23,5 +23,5 @@ export function recordTrial(session: TrialSession, event: "click" | "complete"):
 }
 
 export function trialMetrics(visitors: number, clicks: number, applications: number) {
-  return [String(visitors), String(clicks), String(applications), visitors ? `${Math.round(clicks / visitors * 100)}%` : "—", visitors ? `${Math.round(applications / visitors * 100)}%` : "—"];
+  return [String(visitors), String(clicks), String(applications), visitors ? `${Math.round(applications / visitors * 100)}%` : "—"];
 }

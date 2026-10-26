@@ -91,7 +91,6 @@ export function TrialExperiment({ onBack, variant, onVersion, onSection }: { onB
 }
 
 export function TrialResults({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
-  const [source, setSource] = useState<"all" | "local" | "example">("all");
   const [totals, setTotals] = useState<Record<"A" | "B", { views: number; clicks: number; completions: number }> | null>(null);
   useEffect(() => {
     if (!open) return;
@@ -102,23 +101,20 @@ export function TrialResults({ open, onOpenChange }: { open: boolean; onOpenChan
       setTotals(next);
     });
   }, [open]);
-  let session: TrialSession | null = null;
-  if (open) { try { session = parseTrial(localStorage.getItem(TRIAL_STORAGE_KEY)); } catch { /* No stored session. */ } }
-  const counts = (variant: "A" | "B") => source === "all" ? (totals ? trialMetrics(totals[variant].views, totals[variant].clicks, totals[variant].completions) : ["\u2026", "\u2026", "\u2026", "\u2026", "\u2026"]) : source === "example" ? (variant === "A" ? trialMetrics(30, 12, 6) : trialMetrics(30, 18, 12)) : trialMetrics(session?.variant === variant ? 1 : 0, session?.variant === variant && session.clicked ? 1 : 0, session?.variant === variant && session.completed ? 1 : 0);
-  const a = counts("A"), b = counts("B");
-  const labels = ["Unique visitors", "CTA clicks", "Completed trial applications", "Click-through rate", "Application conversion rate"];
+  const a = totals ? trialMetrics(totals.A.views, totals.A.clicks, totals.A.completions) : ["\u2026", "\u2026", "\u2026", "\u2026"];
+  const b = totals ? trialMetrics(totals.B.views, totals.B.clicks, totals.B.completions) : ["\u2026", "\u2026", "\u2026", "\u2026"];
+  const labels = ["Unique visitors", "CTA clicks", "Completed trial applications", "Application conversion rate"];
 
   function download() {
-    const csv = [["DEMO ONLY", source === "all" ? "All visitors to this site; anonymous counts only" : source === "example" ? "Illustrative sample; not actual results" : "This browser only; not participant data"], ["Metric", "A: Sustainability", "B: Nutrition & Trust"], ...labels.map((label, i) => [label, a[i], b[i]])].map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
+    const csv = [["DEMO ONLY", "All visitors to this site; anonymous counts only"], ["Metric", "A: Sustainability", "B: Nutrition & Trust"], ...labels.map((label, i) => [label, a[i], b[i]])].map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
-    const link = document.createElement("a"); link.href = url; link.download = `pawkind-${source}-demo.csv`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const link = document.createElement("a"); link.href = url; link.download = "pawkind-demo.csv"; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="trial-dialog sm:max-w-3xl">
-    <DialogHeader><DialogTitle className="font-display text-2xl">A/B results · demo only</DialogTitle><DialogDescription>{source === "all" ? "Real anonymous counts from every visitor to this site. No names or emails are stored." : source === "local" ? "Only this browser's demo activity. Not shared across visitors or devices." : "Illustrative numbers from your team's example. Not actual test results or evidence that one message wins."}</DialogDescription></DialogHeader>
-    <div className="flex flex-wrap gap-2" role="group" aria-label="Results source"><Button variant={source === "all" ? "default" : "outline"} aria-pressed={source === "all"} onClick={() => setSource("all")}>All visitors</Button><Button variant={source === "local" ? "default" : "outline"} aria-pressed={source === "local"} onClick={() => setSource("local")}>This browser</Button><Button variant={source === "example" ? "default" : "outline"} aria-pressed={source === "example"} onClick={() => setSource("example")}>Illustrative example</Button></div>
-    <div className="overflow-x-auto"><table className="trial-table"><caption className="sr-only">{source === "local" ? "Browser-local demo results" : "Illustrative sample results"}</caption><thead><tr><th scope="col">Metric</th><th scope="col">A<br /><span>Sustainability</span></th><th scope="col">B<br /><span>Nutrition & Trust</span></th></tr></thead><tbody>{labels.map((label, index) => <tr key={label}><th scope="row">{label}</th><td>{a[index]}</td><td>{b[index]}</td></tr>)}</tbody></table></div>
-    <p className="text-sm text-muted-foreground">Rates use unique trial-screen visitors as the denominator. Repeat clicks and completions count once; no visitors means no rate. Browser data can be cleared and does not identify people.</p>
+    <DialogHeader><DialogTitle className="font-display text-2xl">A/B results · demo only</DialogTitle><DialogDescription>Real anonymous counts from every visitor to this site. No names or emails are stored.</DialogDescription></DialogHeader>
+    <div className="overflow-x-auto"><table className="trial-table"><caption className="sr-only">Anonymous visitor counts across both versions</caption><thead><tr><th scope="col">Metric</th><th scope="col">A<br /><span>Sustainability</span></th><th scope="col">B<br /><span>Nutrition & Trust</span></th></tr></thead><tbody>{labels.map((label, index) => <tr key={label}><th scope="row">{label}</th><td>{a[index]}</td><td>{b[index]}</td></tr>)}</tbody></table></div>
+    <p className="text-sm text-muted-foreground">The conversion rate uses unique trial-screen visitors as the denominator. Repeat clicks and completions count once; no visitors means no rate. These counts are anonymous and do not identify people.</p>
     <Button variant="outline" onClick={download}><Download /> Export demo CSV</Button>
   </DialogContent></Dialog>;
 }
