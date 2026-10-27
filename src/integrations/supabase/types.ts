@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      dog_wall_admin: {
+        Row: {
+          id: number
+          key_hash: string
+          key_salt: string
+        }
+        Insert: {
+          id?: number
+          key_hash: string
+          key_salt: string
+        }
+        Update: {
+          id?: number
+          key_hash?: string
+          key_salt?: string
+        }
+        Relationships: []
+      }
+      dog_wall_posts: {
+        Row: {
+          breed: string | null
+          created_at: string
+          dog_name: string
+          id: string
+          owner_token_hash: string
+          photo_path: string
+          reviewed_at: string | null
+          status: string
+        }
+        Insert: {
+          breed?: string | null
+          created_at?: string
+          dog_name: string
+          id?: string
+          owner_token_hash: string
+          photo_path: string
+          reviewed_at?: string | null
+          status?: string
+        }
+        Update: {
+          breed?: string | null
+          created_at?: string
+          dog_name?: string
+          id?: string
+          owner_token_hash?: string
+          photo_path?: string
+          reviewed_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       trial_counters: {
         Row: {
           clicks: number
@@ -40,9 +91,60 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      dog_wall_hash: { Args: { _value: string }; Returns: string }
+      dog_wall_is_admin: { Args: { _admin_key: string }; Returns: boolean }
+      dog_wall_photo_removable: { Args: { _name: string }; Returns: boolean }
+      list_dog_wall: {
+        Args: { _limit?: number }
+        Returns: {
+          breed: string | null
+          created_at: string
+          dog_name: string
+          id: string
+          photo_path: string
+        }[]
+      }
+      moderate_dog_wall_post: {
+        Args: { _admin_key: string; _id: string; _status: string }
+        Returns: boolean
+      }
+      my_dog_wall_posts: {
+        Args: { _ids: string[]; _owner_token: string }
+        Returns: {
+          created_at: string
+          dog_name: string
+          id: string
+          photo_path: string
+          status: string
+        }[]
+      }
       record_trial_event: {
         Args: { _event: string; _variant: string }
         Returns: undefined
+      }
+      remove_dog_wall_post: {
+        Args: { _id: string; _owner_token: string }
+        Returns: boolean
+      }
+      review_dog_wall: {
+        Args: { _admin_key: string }
+        Returns: {
+          breed: string | null
+          created_at: string
+          dog_name: string
+          id: string
+          photo_path: string
+          status: string
+        }[]
+      }
+      submit_dog_wall_post: {
+        Args: {
+          _breed: string
+          _dog_name: string
+          _owner_token: string
+          _photo_path: string
+        }
+        Returns: string
       }
     }
     Enums: {

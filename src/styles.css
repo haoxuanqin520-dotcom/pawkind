@@ -1677,7 +1677,6 @@
   text-underline-offset: 4px;
 }
 .footer-note {
-  max-width: 60rem;
   margin: 0;
   padding-top: 1.5rem;
   grid-column: 1 / -1;
@@ -2105,5 +2104,535 @@
   }
   .trial-title {
     font-size: 1.6rem;
+  }
+}
+
+/* ---------- Dog wall ---------- */
+
+.header-nav a[aria-current="page"],
+.mobile-menu a[aria-current="page"] {
+  color: var(--cocoa);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+.passport-wall-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.5rem;
+  color: var(--ink-on-caramel);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.passport-wall-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.wall-frame {
+  margin: 0;
+  padding: 0.7rem 0.7rem 0.9rem;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow:
+    0 1px 0 var(--oat-deep),
+    0 16px 26px -20px color-mix(in oklab, var(--cocoa) 55%, transparent);
+  transform: rotate(-1.2deg);
+}
+.wall-frame:nth-child(3n + 2) {
+  transform: rotate(1deg);
+}
+.wall-frame:nth-child(3n) {
+  transform: rotate(-0.4deg);
+}
+.wall-print {
+  display: grid;
+  aspect-ratio: 1;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 3px;
+  background: var(--oat);
+  color: var(--caramel-deep);
+}
+.wall-print img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wall-print svg {
+  width: 36px;
+  height: 36px;
+  opacity: 0.7;
+  stroke-width: 1.5;
+}
+.wall-frame figcaption {
+  display: flex;
+  min-height: 2.6rem;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.7rem 0.2rem 0;
+}
+.wall-frame figcaption strong {
+  color: var(--cocoa);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-variation-settings:
+    "SOFT" 100,
+    "WONK" 0;
+  font-weight: 650;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.wall-frame figcaption span {
+  color: var(--muted-ink);
+  font-size: 0.8125rem;
+}
+.wall-frame-skeleton .wall-print {
+  animation: wall-pulse 1.4s ease-in-out infinite;
+}
+.wall-skeleton-line {
+  width: 60%;
+  height: 12px;
+  margin: 0.9rem 0.2rem 0.3rem;
+  border-radius: 6px;
+  background: var(--oat);
+}
+@keyframes wall-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.wall-teaser {
+  padding-block: 5rem;
+  border-top: 1px solid var(--oat-deep);
+  background: var(--cream);
+}
+.wall-teaser-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  align-items: center;
+  gap: 3rem;
+}
+.wall-teaser-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.wall-teaser-copy h2 {
+  margin: 0;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.04;
+}
+.wall-teaser-copy p {
+  max-width: 26rem;
+  margin: 0;
+  color: var(--body);
+  line-height: 1.6;
+}
+.wall-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.wall-hero {
+  padding-block: 4rem 5rem;
+  background: var(--caramel);
+  color: var(--ink-on-caramel);
+}
+.wall-hero :focus-visible {
+  outline-color: var(--cocoa);
+}
+.wall-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+  align-items: start;
+  gap: 3rem 4rem;
+}
+.wall-hero h1 {
+  margin: 0 0 1.25rem;
+  color: var(--ink-on-caramel);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 0.98;
+}
+.wall-lede {
+  max-width: 32rem;
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+}
+.wall-promises {
+  display: flex;
+  max-width: 30rem;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.wall-promises li {
+  display: flex;
+  gap: 0.7rem;
+  font-weight: 550;
+  line-height: 1.45;
+}
+.wall-promises li::before {
+  flex: 0 0 8px;
+  height: 8px;
+  margin-top: 0.5em;
+  border-radius: 50%;
+  background: var(--cocoa);
+  content: "";
+}
+
+.wall-uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.5rem;
+  border-radius: 28px;
+  background: var(--paper);
+  color: var(--cocoa);
+}
+.wall-drop {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  border: 2px dashed var(--oat-deep);
+  border-radius: 20px;
+  background: var(--cream);
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.wall-drop svg {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 0.35rem;
+  color: var(--caramel-deep);
+}
+.wall-drop strong {
+  font-size: 1.05rem;
+}
+.wall-drop span {
+  color: var(--muted-ink);
+  font-size: 0.875rem;
+}
+.wall-drop:hover,
+.wall-drop.is-dragging {
+  border-color: var(--caramel-deep);
+  background: var(--oat);
+}
+.wall-drop.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.wall-uploader input[type="file"]:focus-visible + .wall-drop {
+  outline: 3px solid var(--caramel-deep);
+  outline-offset: 2px;
+}
+.wall-uploader-preview {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--oat);
+}
+.wall-uploader-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wall-change {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--paper) 92%, transparent);
+  color: var(--cocoa);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+.wall-change svg {
+  width: 16px;
+  height: 16px;
+}
+.wall-error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--brick) 12%, var(--paper));
+  color: var(--cocoa);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.wall-uploader-done {
+  align-items: flex-start;
+}
+.wall-uploader-done .wall-uploader-preview {
+  width: 100%;
+}
+.wall-done-icon {
+  width: 36px;
+  height: 36px;
+  color: var(--sage-deep);
+}
+.wall-uploader-done h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+.wall-uploader-done p {
+  margin: 0;
+  color: var(--body);
+  line-height: 1.55;
+}
+
+.wall-mine {
+  padding-block: 3rem;
+  background: var(--oat);
+}
+.wall-mine h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.75rem;
+}
+.wall-mine-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+.wall-mine-list li {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 0.9rem 0.7rem 0.7rem;
+  border-radius: 16px;
+  background: var(--paper);
+}
+.wall-mine-list img {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: var(--oat);
+  object-fit: cover;
+}
+.wall-mine-list li > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+.wall-mine-list strong {
+  color: var(--cocoa);
+}
+.wall-mine-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+.wall-status {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.wall-status-pending {
+  background: color-mix(in oklab, var(--caramel) 28%, var(--paper));
+  color: var(--cocoa);
+}
+.wall-status-approved {
+  background: var(--sage-deep);
+  color: var(--paper);
+}
+.wall-status-rejected,
+.wall-status-removed {
+  border: 1px dashed var(--muted-ink);
+  color: var(--muted-ink);
+}
+
+.wall-gallery {
+  padding-block: 4.5rem 6rem;
+  background: var(--cream);
+}
+.wall-gallery-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.wall-gallery-head h2 {
+  margin: 0;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+}
+.wall-gallery-head p {
+  margin: 0;
+  color: var(--muted-ink);
+}
+.wall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem 1.5rem;
+}
+.wall-empty {
+  margin: 0;
+  padding: 2.5rem;
+  border: 2px dashed var(--oat-deep);
+  border-radius: 22px;
+  color: var(--body);
+  text-align: center;
+}
+
+.review-section {
+  min-height: 60vh;
+  padding-block: 4rem 6rem;
+  background: var(--cream);
+}
+.review-narrow {
+  max-width: 34rem;
+  margin-inline: 0;
+}
+.review-section h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.review-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 2.5rem 0 1.25rem;
+  font-size: 1.5rem;
+}
+.review-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.review-key {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem;
+}
+.review-key .field {
+  width: 100%;
+}
+.review-count {
+  display: inline-grid;
+  min-width: 28px;
+  height: 28px;
+  place-items: center;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: var(--cocoa);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.review-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 0.2rem 0;
+}
+.review-actions .btn {
+  flex: 1;
+  padding: 0 0.75rem;
+}
+.review-note {
+  margin-top: 2.5rem;
+  color: var(--muted-ink);
+  font-size: 0.9rem;
+}
+.review-section .wall-frame {
+  transform: none;
+}
+
+@media (max-width: 960px) {
+  .wall-teaser-inner,
+  .wall-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .wall-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .wall-strip > :nth-child(4) {
+    display: none;
+  }
+  .passport-wall-link {
+    order: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .wall-teaser {
+    padding-block: 4rem;
+  }
+  .wall-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .wall-strip > :nth-child(3) {
+    display: none;
+  }
+  .wall-hero {
+    padding-block: 2.75rem 3.5rem;
+  }
+  .wall-lede {
+    font-size: 1.0625rem;
+  }
+  .wall-uploader {
+    padding: 1.1rem;
+    border-radius: 22px;
+  }
+  .wall-uploader .field-pair {
+    grid-template-columns: 1fr;
+  }
+  .wall-drop {
+    min-height: 180px;
+  }
+  .wall-gallery {
+    padding-block: 3.5rem 4.5rem;
+  }
+  .wall-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
+  }
+  .wall-frame {
+    padding: 0.5rem 0.5rem 0.7rem;
+  }
+  .wall-frame figcaption strong {
+    font-size: 1rem;
+  }
+  .wall-mine-list {
+    grid-template-columns: 1fr;
+  }
+  .review-actions {
+    flex-direction: column;
   }
 }

@@ -1,4 +1,4 @@
-import { PawPrint } from "lucide-react";
+import { Camera, PawPrint } from "lucide-react";
 import { useId, useMemo } from "react";
 
 import westiePortrait from "@/assets/westie-portrait.jpg";
@@ -221,6 +221,14 @@ export function DogPassport({ profile, onChange, onApply }: Props) {
                 <span>{mrz2}</span>
               </div>
             </article>
+
+            <a
+              className="passport-wall-link"
+              href={`/wall?name=${encodeURIComponent(profile.name.trim())}&breed=${encodeURIComponent(profile.breed)}`}
+            >
+              <Camera aria-hidden="true" />
+              Share a real photo of {profile.name.trim() || "your dog"} on the dog wall
+            </a>
 
             <PlanCard plan={plan} name={displayName} onApply={onApply} />
           </div>

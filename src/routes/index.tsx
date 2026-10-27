@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 import packBack from "@/assets/pack-back.webp";
 import packFront from "@/assets/pack-front.webp";
 import { DogPassport } from "@/components/pawkind/DogPassport";
 import { NutritionExplorer } from "@/components/pawkind/NutritionExplorer";
-import { NAV_LINKS, PawKindFooter } from "@/components/pawkind/PawKindFooter";
-import { PawKindLogo } from "@/components/pawkind/PawKindLogo";
+import { PawKindFooter } from "@/components/pawkind/PawKindFooter";
 import { ProductSection } from "@/components/pawkind/ProductSection";
+import { SiteHeader } from "@/components/pawkind/SiteHeader";
 import { TrialDialog } from "@/components/pawkind/TrialDialog";
 import { TrustFaq } from "@/components/pawkind/TrustFaq";
+import { WallTeaser } from "@/components/pawkind/WallTeaser";
 import { DEFAULT_PROFILE, type DogProfile } from "@/components/pawkind/passport";
 
 export const Route = createFileRoute("/")({
@@ -44,7 +44,6 @@ const PRIORITIES = [
 ];
 
 function PawKindPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [trialOpen, setTrialOpen] = useState(false);
   const [profile, setProfile] = useState<DogProfile>(DEFAULT_PROFILE);
   const openTrial = () => setTrialOpen(true);
@@ -57,56 +56,7 @@ function PawKindPage() {
 
   return (
     <main className="page">
-      <header className="site-header">
-        <div className="wrap header-inner">
-          <a href="#top" aria-label="PawKind, back to top" onClick={() => setMenuOpen(false)}>
-            <PawKindLogo />
-          </a>
-          <nav className="header-nav" aria-label="Main">
-            {NAV_LINKS.map(([id, label]) => (
-              <a key={id} href={`#${id}`}>
-                {label}
-              </a>
-            ))}
-          </nav>
-          <button
-            type="button"
-            className="btn btn-primary btn-small header-cta"
-            onClick={openTrial}
-          >
-            Apply for the trial
-          </button>
-          <button
-            type="button"
-            className="menu-button"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            onClick={() => setMenuOpen((value) => !value)}
-          >
-            {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-          </button>
-        </div>
-        {menuOpen && (
-          <nav id="mobile-menu" className="mobile-menu" aria-label="Mobile">
-            {NAV_LINKS.map(([id, label]) => (
-              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
-                {label}
-              </a>
-            ))}
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                setMenuOpen(false);
-                openTrial();
-              }}
-            >
-              Apply for the trial
-            </button>
-          </nav>
-        )}
-      </header>
+      <SiteHeader onApply={openTrial} />
 
       <section id="top" className="hero" aria-labelledby="hero-title">
         <div className="wrap hero-inner">
@@ -188,6 +138,8 @@ function PawKindPage() {
           </div>
         </div>
       </section>
+
+      <WallTeaser />
 
       <TrustFaq />
 

@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WallRouteImport } from './routes/wall'
+import { Route as WallReviewRouteImport } from './routes/wall-review'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WallRoute = WallRouteImport.update({
+  id: '/wall',
+  path: '/wall',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WallReviewRoute = WallReviewRouteImport.update({
+  id: '/wall-review',
+  path: '/wall-review',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/wall': typeof WallRoute
+  '/wall-review': typeof WallReviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/wall': typeof WallRoute
+  '/wall-review': typeof WallReviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/wall': typeof WallRoute
+  '/wall-review': typeof WallReviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/wall' | '/wall-review'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/wall' | '/wall-review'
+  id: '__root__' | '/' | '/wall' | '/wall-review'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  WallRoute: typeof WallRoute
+  WallReviewRoute: typeof WallReviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wall': {
+      id: '/wall'
+      path: '/wall'
+      fullPath: '/wall'
+      preLoaderRoute: typeof WallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wall-review': {
+      id: '/wall-review'
+      path: '/wall-review'
+      fullPath: '/wall-review'
+      preLoaderRoute: typeof WallReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  WallRoute: WallRoute,
+  WallReviewRoute: WallReviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
