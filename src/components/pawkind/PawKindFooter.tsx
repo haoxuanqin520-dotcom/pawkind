@@ -1,15 +1,32 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { PawKindLogo } from "./PawKindLogo";
 
-export function PawKindFooter({ onVersion, onResults, onSection }: { onVersion: (version: "A" | "B") => void; onResults: () => void; onSection?: (section: string) => void }) {
-  return <footer className="pawkind-footer">
-    <div className="footer-brand"><PawKindLogo compact /><p>Good for Pets. Kinder for the Planet.</p><span>Singapore · NUS student project</span></div>
-    <nav className="footer-links" aria-label="Footer navigation">
-      {([["how", "How it works"], ["research", "Research"], ["app", "The app"], ["packs", "Packs"]] as const).map(([id, label]) => <a key={id} href={`#${id}`} onClick={onSection ? (event) => { event.preventDefault(); onSection(id); } : undefined}>{label}</a>)}
-      <Button variant="link" onClick={() => onVersion("A")}>Version A</Button><Button variant="link" onClick={() => onVersion("B")}>Version B</Button>
-    </nav>
-    <Button variant="outline" className="footer-results" onClick={onResults}>A/B test results <ArrowRight /></Button>
-    <p className="footer-disclaimer">Concept prototype for an NUS student project · No real orders or payments are created.</p>
-  </footer>;
+export const NAV_LINKS = [
+  ["passport", "Your dog"],
+  ["food", "The food"],
+  ["inside", "What's inside"],
+  ["faq", "Questions"],
+] as const;
+
+export function PawKindFooter() {
+  return (
+    <footer className="site-footer">
+      <div className="wrap footer-grid">
+        <div className="footer-brand">
+          <PawKindLogo compact />
+          <p>Care in every bowl.</p>
+        </div>
+        <nav className="footer-links" aria-label="Footer">
+          {NAV_LINKS.map(([id, label]) => (
+            <a key={id} href={`#${id}`}>
+              {label}
+            </a>
+          ))}
+        </nav>
+        <p className="footer-note">
+          PawKind is a concept by an NUS student team in Singapore. The recipe, packaging and prices
+          are in development. No real orders or payments are taken.
+        </p>
+      </div>
+    </footer>
+  );
 }

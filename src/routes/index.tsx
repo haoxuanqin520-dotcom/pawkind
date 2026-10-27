@@ -1,22 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, ChevronRight, Leaf, Menu, QrCode, ShieldCheck, Soup, RefreshCw, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
-import heroImage from "@/assets/hero-dogs-wide.jpg";
+import packBack from "@/assets/pack-back.webp";
+import packFront from "@/assets/pack-front.webp";
+import { DogPassport } from "@/components/pawkind/DogPassport";
+import { NutritionExplorer } from "@/components/pawkind/NutritionExplorer";
+import { NAV_LINKS, PawKindFooter } from "@/components/pawkind/PawKindFooter";
 import { PawKindLogo } from "@/components/pawkind/PawKindLogo";
-import { PetAppDemo } from "@/components/pawkind/PetAppDemo";
-import { ProductCard } from "@/components/pawkind/ProductCard";
-import { TrialExperiment, TrialResults } from "@/components/pawkind/TrialExperiment";
-import { Button } from "@/components/ui/button";
-import { PawKindFooter } from "@/components/pawkind/PawKindFooter";
+import { ProductSection } from "@/components/pawkind/ProductSection";
+import { TrialDialog } from "@/components/pawkind/TrialDialog";
+import { TrustFaq } from "@/components/pawkind/TrustFaq";
+import { DEFAULT_PROFILE, type DogProfile } from "@/components/pawkind/passport";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PawKind · Good for Pets. Kinder for the Planet." },
-      { name: "description", content: "Complete dry food for adult dogs made with Black Soldier Fly protein. Explore PawKind's 300 g trial pack and interactive nutrition prototype." },
-      { property: "og:title", content: "PawKind · Good for Pets. Kinder for the Planet." },
-      { property: "og:description", content: "A kinder kind of pet food, made with Black Soldier Fly protein and built around what pets need first." },
+      { title: "PawKind | Adult dog food with Black Soldier Fly protein" },
+      {
+        name: "description",
+        content:
+          "A complete dry food concept for healthy adult dogs, made with Black Soldier Fly protein. Build your dog's passport, see what's inside, and apply for a 300 g trial.",
+      },
+      { property: "og:title", content: "PawKind | Care in every bowl" },
+      {
+        property: "og:description",
+        content:
+          "Adult dog food with Black Soldier Fly protein. Nutrition first, and open about what's tested.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -24,114 +35,187 @@ export const Route = createFileRoute("/")({
   component: PawKindPage,
 });
 
-const processSteps = [
-  ["01", "Food by-products", "Useful nutrients get a second life instead of becoming waste."],
-  ["02", "Black Soldier Fly", "Larvae efficiently turn those nutrients into quality protein."],
-  ["03", "Insect protein", "The larvae are dried and milled into a nutrient-rich meal."],
-  ["04", "Complete kibble", "Balanced recipes are made for adult dogs."],
-  ["05", "Happier bowls", "Familiar food for them, with a lighter footprint for us."],
-];
-
-const questions = [
-  ["Is it good for my pet?", "Pet Passport + Nutrition Plan", "A profile built around age, weight, activity and sensitivities helps create a safer starting point."],
-  ["Will my pet eat it?", "Trial Pack + 7-day switch", "Start with 300 g rather than a large bag, then introduce PawKind gently over seven days."],
-  ["Can I trust the claims?", "Trace", "A unique bag code connects the insect supplier lot, manufacturing batch and sample lab checks."],
-  ["Why should I switch?", "Pawprint · planned", "Pet needs come first. Once the food works for them, Pawprint will make the avoided footprint visible."],
+const PRIORITIES = [
+  "Health and nutrition",
+  "Taste and safety",
+  "Trust and evidence",
+  "Price and value",
+  "Sustainability",
 ];
 
 function PawKindPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [trialOpen, setTrialOpen] = useState<"A" | "B" | null>(null);
-  const [resultsOpen, setResultsOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
-  const startTrial = () => document.getElementById("trial")?.scrollIntoView({ behavior: "smooth" });
-  const openVersion = (v: "A" | "B") => { setTrialOpen(v); window.scrollTo({ top: 0, behavior: "instant" }); };
-  const returnHome = (section?: string) => { setTrialOpen(null); requestAnimationFrame(() => { if (section) document.getElementById(section)?.scrollIntoView({ behavior: "smooth" }); else window.scrollTo({ top: 0, behavior: "instant" }); }); };
-
-  if (trialOpen) return <TrialExperiment key={trialOpen} variant={trialOpen} onBack={returnHome} onVersion={openVersion} onSection={returnHome} />;
+  const [trialOpen, setTrialOpen] = useState(false);
+  const [profile, setProfile] = useState<DogProfile>(DEFAULT_PROFILE);
+  const openTrial = () => setTrialOpen(true);
+  const editPassport = () => {
+    setTrialOpen(false);
+    requestAnimationFrame(() =>
+      document.getElementById("passport")?.scrollIntoView({ behavior: "smooth" }),
+    );
+  };
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main className="page">
       <header className="site-header">
-        <a href="#top" aria-label="PawKind home"><PawKindLogo /></a>
-        <nav className="hidden items-center gap-8 text-sm font-semibold md:flex" aria-label="Main navigation">
-          <a href="#how">How it works</a><a href="#research">Research</a><a href="#app">The app</a><a href="#packs">Packs</a>
-        </nav>
-        <Button className="hidden min-h-12 sm:inline-flex" onClick={startTrial}>Try PawKind · S$9.90</Button>
-        <button className="icon-button md:hidden" type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen((value) => !value)}>
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-        {menuOpen && <nav className="mobile-menu" aria-label="Mobile navigation"><a href="#how" onClick={closeMenu}>How it works</a><a href="#research" onClick={closeMenu}>Research</a><a href="#app" onClick={closeMenu}>The app</a><a href="#packs" onClick={closeMenu}>Packs</a></nav>}
+        <div className="wrap header-inner">
+          <a href="#top" aria-label="PawKind, back to top" onClick={() => setMenuOpen(false)}>
+            <PawKindLogo />
+          </a>
+          <nav className="header-nav" aria-label="Main">
+            {NAV_LINKS.map(([id, label]) => (
+              <a key={id} href={`#${id}`}>
+                {label}
+              </a>
+            ))}
+          </nav>
+          <button
+            type="button"
+            className="btn btn-primary btn-small header-cta"
+            onClick={openTrial}
+          >
+            Apply for the trial
+          </button>
+          <button
+            type="button"
+            className="menu-button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen((value) => !value)}
+          >
+            {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </button>
+        </div>
+        {menuOpen && (
+          <nav id="mobile-menu" className="mobile-menu" aria-label="Mobile">
+            {NAV_LINKS.map(([id, label]) => (
+              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
+                {label}
+              </a>
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                setMenuOpen(false);
+                openTrial();
+              }}
+            >
+              Apply for the trial
+            </button>
+          </nav>
+        )}
       </header>
 
-      <section id="top" className="hero-section">
-        <img src={heroImage} alt="A West Highland terrier and a Cavalier spaniel sitting beside a PawKind food pouch" width={1536} height={864} className="hero-image" />
-        <div className="hero-overlay" />
-        <div className="hero-content">
-          <p className="script-note">Made for curious pets in Singapore</p>
-          <h1>Good for pets.<br /><span>Kinder</span> for the planet.</h1>
-          <p className="hero-copy">Complete dry food for adult dogs, made with Black Soldier Fly protein. Real nutrition first, with a lighter footprint built in.</p>
-          <div className="flex flex-wrap gap-3">
-            <Button size="lg" className="min-h-14" onClick={startTrial}>Try PawKind · S$9.90 <ArrowRight className="size-4" /></Button>
-            <a className="secondary-cta" href="#app">Explore the app</a>
+      <section id="top" className="hero" aria-labelledby="hero-title">
+        <div className="wrap hero-inner">
+          <div className="hero-copy">
+            <h1 id="hero-title">Care in every bowl.</h1>
+            <p className="hero-lede">
+              Complete dry food for adult dogs, made with Black Soldier Fly protein. Nutrition comes
+              first, and we're open about what's been tested and what hasn't yet.
+            </p>
+            <div className="hero-actions">
+              <button type="button" className="btn btn-primary" onClick={openTrial}>
+                Apply for the trial
+              </button>
+              <a className="btn btn-outline" href="#passport">
+                Start your dog's passport
+              </a>
+            </div>
+            <p className="hero-terms">S$9.90 for a 300 g trial pack. No payment when you apply.</p>
           </div>
-          <div className="hero-proof"><span><CheckCircle2 /> Adult dog recipe</span><span><QrCode /> Traceable bag concept</span><span><Leaf /> Planned 15–20% BSF protein</span></div>
-        </div>
-      </section>
-
-      <section id="trial" className="trial-entry">
-        <div className="trial-entry-heading"><p className="script-note">A kinder first bowl</p><h2>Try PawKind.</h2><p>Explore our 300 g trial pack concept at S$9.90.</p></div>
-        <p className="version-instruction">Choose a version to explore PawKind</p>
-        <div className="version-choices">
-          <Button variant="ghost" className="version-card version-a" onClick={() => openVersion("A")} aria-label="Enter Version A · Sustainability"><span className="version-card-top"><span className="version-badge">VERSION A</span><span className="version-motif" aria-hidden="true"><RefreshCw /><Leaf /></span></span><span className="version-category">Sustainability</span><strong>A kinder bowl.<br />A lighter footprint.</strong><small>Circular protein &amp; environmental value</small><span className="version-enter">Enter Version A <ArrowRight /></span></Button>
-          <Button variant="ghost" className="version-card version-b" onClick={() => openVersion("B")} aria-label="Enter Version B · Nutrition & Trust"><span className="version-card-top"><span className="version-badge">VERSION B</span><span className="version-motif" aria-hidden="true"><Soup /><ShieldCheck /></span></span><span className="version-category">Nutrition &amp; Trust</span><strong>Nutrition first.<br />Trust in every bowl.</strong><small>Ingredient transparency &amp; careful transition</small><span className="version-enter">Enter Version B <ArrowRight /></span></Button>
-        </div>
-      </section>
-
-      <section id="how" className="content-section">
-        <div className="section-heading"><p className="script-note">Why insects?</p><h2>A smaller protein with a surprisingly big job.</h2><p>Most bowls still rely on resource-intensive conventional proteins. Black Soldier Fly larvae offer a circular alternative—turning food by-products into useful nutrition.</p></div>
-        <div className="process-grid">
-          {processSteps.map(([number, title, detail], index) => <article className="process-step" key={number}><span>{number}</span><div className="process-icon">{index === 4 ? <CheckCircle2 /> : index === 1 ? <Leaf /> : <ChevronRight />}</div><h3>{title}</h3><p>{detail}</p></article>)}
-        </div>
-      </section>
-
-      <section id="research" className="research-band">
-        <div className="content-section py-0">
-          <div className="research-intro"><p className="eyebrow">What our research found</p><h2>We expected sustainability to lead. Pet owners ranked it last.</h2><p className="script-note">Curiosity is real, but adoption is conditional.</p></div>
-          <div className="research-layout">
-            <div className="priority-list"><p className="eyebrow">What owners told us</p>{["Health & nutrition", "Palatability & safety", "Trust & evidence", "Price & value", "Sustainability"].map((item, index) => <div className={index === 4 ? "last" : ""} key={item}><span>{index + 1}</span><strong>{item}</strong></div>)}</div>
-            <div className="research-copy"><h3>Pet needs come first. Always.</h3><p>Owners were open to a new protein, but only after the fundamentals were clear: complete nutrition, safe formulation, a pet that actually eats it, and evidence they can trust.</p><div className="stat-grid"><div><strong>83%</strong><span>open to trying insect-based pet food</span></div><div><strong>100%</strong><span>said their pet's needs come first</span></div><div><strong>83%</strong><span>showed openness on price</span></div></div></div>
+          <div className="hero-visual">
+            <img className="hero-bag-back" src={packBack} alt="" width={468} height={762} />
+            <img
+              className="hero-bag-front"
+              src={packFront}
+              alt="The PawKind bag: adult dog food with Black Soldier Fly protein, with a West Highland terrier and a bowl of kibble on the front."
+              width={627}
+              height={963}
+              fetchPriority="high"
+            />
           </div>
         </div>
+        <svg
+          className="hero-wave"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path d="M0 64 C 280 4, 520 4, 760 46 S 1220 118, 1440 52 L 1440 120 L 0 120 Z" />
+        </svg>
       </section>
 
-      <section className="content-section">
-        <div className="section-heading"><p className="script-note">What every owner asked us</p><h2>Four questions stand between curiosity and the first bowl.</h2></div>
-        <div className="question-grid">{questions.map(([title, feature, detail], index) => <article key={title}><div className="question-number">0{index + 1}</div><span>{feature}</span><h3>“{title}”</h3><p>{detail}</p></article>)}</div>
-      </section>
+      <DogPassport profile={profile} onChange={setProfile} onApply={openTrial} />
 
-      <section id="app" className="app-band">
-        <div className="app-layout">
-            <div className="app-copy"><p className="script-note">Try the prototype</p><h2>Your pet gets a passport. Every bag gets one too.</h2><p>Change Mochi's details and the portion, switch plan and trial-pack coverage update instantly. Then open Trace to follow a sample bag back through its supply chain.</p><div className="feature-list"><div><ShieldCheck /><span><strong>Pet-first guidance</strong>Safety checks flag pets who need a vet's advice.</span></div><div><QrCode /><span><strong>Traceable by design</strong>Sample supplier, batch and lab records in one place.</span></div><div><Leaf /><span><strong>Impact made visible</strong>Planned tools connect each bowl to its footprint.</span></div></div></div>
-          <div className="flex justify-center"><PetAppDemo /></div>
+      <ProductSection onApply={openTrial} />
+
+      <NutritionExplorer onApply={openTrial} />
+
+      <section id="research" className="research-section" aria-labelledby="research-title">
+        <div className="wrap research-layout">
+          <div className="research-copy">
+            <h2 id="research-title">We expected sustainability to lead. Owners ranked it last.</h2>
+            <p>
+              In our interviews and survey, dog owners were open to insect protein, but only once
+              the basics were clear: complete nutrition, a safe recipe, a dog that actually eats it,
+              and evidence they can check. So this page starts with your dog, not the planet.
+            </p>
+            <dl className="research-stats">
+              <div>
+                <dt>83%</dt>
+                <dd>were open to trying insect-based dog food</dd>
+              </div>
+              <div>
+                <dt>100%</dt>
+                <dd>said their dog's needs come first</dd>
+              </div>
+              <div>
+                <dt>83%</dt>
+                <dd>were open on price</dd>
+              </div>
+            </dl>
+          </div>
+          <div className="priority-card">
+            <h3>What owners care about most</h3>
+            <ol>
+              {PRIORITIES.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
-      <section id="packs" className="content-section packs-section">
-        <div className="section-heading"><p className="script-note">Start small</p><h2>Let them taste it before you commit.</h2><p>An adult dog recipe. Start with the 300 g trial, then size up when your pet is ready.</p></div>
-        <div className="product-grid">
-          <ProductCard name="Trial Pack" weight="300 g" price="S$9.90" unitPrice="S$33.00 / kg" description="Enough to begin the 7-day switch." tone="pink" badge="Start here" featured />
-          <ProductCard name="Standard" weight="1.5 kg" price="S$34.90" unitPrice="S$23.27 / kg" description="About 10 days for an 8 kg adult dog." tone="green" />
-          <ProductCard name="Family" weight="5 kg" price="S$99.90" unitPrice="S$19.98 / kg" description="About 34 days for an 8 kg adult dog." tone="gold" badge="Best value" />
+      <TrustFaq />
+
+      <section className="final-cta" aria-labelledby="final-title">
+        <svg
+          className="final-wave"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path d="M0 56 C 300 120, 640 110, 900 62 S 1290 0, 1440 40 L 1440 0 L 0 0 Z" />
+        </svg>
+        <div className="wrap final-inner">
+          <h2 id="final-title">Start with 300 grams. See what your dog thinks.</h2>
+          <button type="button" className="btn btn-primary" onClick={openTrial}>
+            Apply for the trial
+          </button>
         </div>
       </section>
 
-      <section className="impact-band" aria-label="Sustainable Development Goals"><div><span className="sdg-tile sdg-production">12</span><p><strong>SDG 12 · Responsible Consumption &amp; Production</strong>Food by-products become useful protein.</p></div><div><span className="sdg-tile sdg-climate">13</span><p><strong>SDG 13 · Climate Action</strong>Less reliance on livestock protein.</p></div><div><span className="sdg-tile sdg-innovation">9</span><p><strong>SDG 9 · Industry, Innovation &amp; Infrastructure</strong>A traceable farm-to-bag chain.</p></div></section>
+      <PawKindFooter />
 
-      <section className="final-cta"><p className="script-note">A kinder first bowl</p><h2>Start with 300 grams.<br />See what your pet thinks.</h2><Button variant="secondary" size="lg" className="min-h-12" onClick={startTrial}>Try PawKind <ArrowRight className="size-4" /></Button></section>
-
-      <PawKindFooter onVersion={openVersion} onResults={() => setResultsOpen(true)} />
-      <TrialResults open={resultsOpen} onOpenChange={setResultsOpen} />
+      <TrialDialog
+        open={trialOpen}
+        onOpenChange={setTrialOpen}
+        profile={profile}
+        onEditPassport={editPassport}
+      />
     </main>
   );
 }

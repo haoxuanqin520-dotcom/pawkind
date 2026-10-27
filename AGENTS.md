@@ -9,9 +9,14 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- Keep PawKind as a single-page product concept with demo commerce and app interactions — no real accounts, orders, or payments. Lovable Cloud stores only anonymous aggregate A/B counts (public.trial_counters + record_trial_event RPC); no personal data is collected.
-- Keep the trial experiment in a separate in-page view entered from the homepage; visitors choose version A or B from the homepage; keep one browser-local session with idempotent funnel flags and never collect personal data.
-- Keep illustrative results separate from browser-local demo metrics and export both with explicit demo labels, because neither represents a real cross-participant experiment.
-- Reuse PawKindFooter across homepage and in-page trial views; keep one native Button activation target per version card with a visual CTA span, avoiding nested interactive controls.
-- Keep variant product imagery and the circular-food illustration in focused browser-safe presentation components; in-page variant switches remount the trial view to restore the chosen variant session correctly.
-- Use the shared supported-recipes catalog for trial recipe choices; nutrition guidance in the pet prototype targets that supported species rather than retaining unsupported species branches.
+## PawKind project rules
+
+- PawKind is a single-page concept for one product: the adult dog recipe with Black Soldier Fly protein (the former "Version B"). The A/B test is over: do not add version choices, version pages or A/B results views back.
+- No real accounts, orders or payments. Every trial button says "Apply for the trial" and opens the one `TrialDialog`; it collects nothing and states that no payment is taken.
+- Page order: hero, Dog Passport, product, Nutrition Explorer, owner research, FAQ, final call to action.
+- Visual direction follows Packaging Concept 01: warm cream about 60%, caramel about 25%, cocoa about 12%, sage about 3% (tokens in `src/styles.css`). Display type is Fraunces (soft), body is Figtree, both self-hosted in `public/fonts`. Bag images are `src/assets/pack-*.webp`.
+- Honesty rules, from the team's MVP review:
+  - The recipe is not nutritionally validated, so the Dog Passport (`passport.ts`) never shows one precise portion: only an indicative range for healthy adults, labelled as such.
+  - Puppies and pregnant or nursing dogs are "not suitable"; vet diets, allergies or sensitive stomachs and dogs over 7 go to "check with your vet first", with no portion.
+  - The Nutrition Explorer keeps general ingredient facts separate from PawKind's own status. Nothing is marked verified until lab results exist, and the FAQ testing list must match the real status.
+- Lovable Cloud: `public.trial_counters` and `record_trial_event` hold the archived A/B results. The site no longer writes to them.

@@ -1,3 +1,14 @@
+# PawKind single-product MVP (after the October review)
+- [x] Remove the A/B test (version cards, version pages, results dialog).
+- [x] Make the adult dog recipe (former Version B) the only product.
+- [x] Apply Packaging Concept 01: palette, type and bag images.
+- [x] Dog Passport right after the hero, with indicative ranges only.
+- [x] Interactive Nutrition Explorer separating general facts from PawKind status.
+- [x] One trial dialog behind every "Apply for the trial" button.
+- [x] Nutrition and trust FAQ with an honest testing list.
+- [ ] Replace placeholder ingredient sources and testing status with the team's real data.
+- [ ] Decide how to count trial applications now that the A/B counters are archived.
+
 # PawKind A/B demo
 - [x] Remove all cat imagery, copy and recipe/species options; keep dog-only demo guidance.
 - [x] Enlarge and restyle version entry cards with accessible full-card interaction.

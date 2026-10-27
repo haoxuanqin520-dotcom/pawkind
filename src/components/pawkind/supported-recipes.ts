@@ -1,1 +1,0 @@
-export const SUPPORTED_RECIPES = [{ value: "dog", label: "Adult dog" }] as const;
