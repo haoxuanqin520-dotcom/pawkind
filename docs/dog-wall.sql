@@ -1,14 +1,15 @@
 -- PawKind dog wall: database and storage setup for Lovable Cloud.
 --
 -- What it does
---   Owners share one photo of their dog. Every photo waits for the team's review before it
---   appears on /wall. Owners can remove their own photos from the browser they shared them from.
+--   Owners share a photo of their dog and it appears on /wall straight away. Owners can take
+--   their own photos down from the browser they shared them from; the team can take any photo
+--   down on /wall-review with the review key. At most 40 new photos per 10 minutes, site-wide.
 --
 -- How it is protected
 --   * Visitors never read or write the posts table directly. Every action goes through the
 --     functions below, which check their inputs.
---   * Photos live in the public "dog-wall" bucket under random UUID file names. Only approved
---     photos are ever listed, so a waiting photo can't be found by browsing.
+--   * Photos live in the public "dog-wall" bucket under random UUID file names. Only photos on
+--     the wall are listed; removed ones can't be found by browsing.
 --   * Each browser holds a random owner token; the table stores only its SHA-256 hash.
 --   * The team's moderation key is stored as a salted SHA-256 hash, never as plain text.
 --   * The script is safe to run more than once.
@@ -105,7 +106,7 @@ REVOKE EXECUTE ON FUNCTION public.dog_wall_is_admin(text) FROM PUBLIC, anon, aut
 -- Visitor functions
 -- ---------------------------------------------------------------------------
 
--- Share a photo that was just uploaded to the bucket. It starts as "pending".
+-- Share a photo that was just uploaded to the bucket. It goes on the wall straight away.
 CREATE OR REPLACE FUNCTION public.submit_dog_wall_post(
   _dog_name text,
   _breed text,
@@ -123,12 +124,21 @@ BEGIN
   IF _owner_token IS NULL OR char_length(_owner_token) < 32 THEN
     RAISE EXCEPTION 'invalid_token';
   END IF;
-  IF (SELECT count(*) FROM public.dog_wall_posts WHERE status = 'pending') >= 300 THEN
-    RAISE EXCEPTION 'review_queue_full';
+  IF (
+    SELECT count(*) FROM public.dog_wall_posts WHERE created_at > now() - interval '10 minutes'
+  ) >= 40 THEN
+    RAISE EXCEPTION 'too_many_uploads';
   END IF;
 
-  INSERT INTO public.dog_wall_posts (dog_name, breed, photo_path, owner_token_hash)
-  VALUES (btrim(_dog_name), nullif(btrim(_breed), ''), _photo_path, public.dog_wall_hash(_owner_token))
+  INSERT INTO public.dog_wall_posts (dog_name, breed, photo_path, owner_token_hash, status, reviewed_at)
+  VALUES (
+    btrim(_dog_name),
+    nullif(btrim(_breed), ''),
+    _photo_path,
+    public.dog_wall_hash(_owner_token),
+    'approved',
+    now()
+  )
   RETURNING id INTO new_id;
 
   RETURN new_id;

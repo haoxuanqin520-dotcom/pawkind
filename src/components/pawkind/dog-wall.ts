@@ -44,7 +44,7 @@ export type WallErrorKind =
   | "not-image"
   | "unreadable"
   | "too-big"
-  | "queue-full"
+  | "busy"
   | "offline"
   | "not-allowed"
   | "failed";
@@ -61,10 +61,9 @@ export const WALL_ERROR_TEXT: Record<WallErrorKind, string> = {
   "not-image": "That file isn't a photo. Choose a JPG, PNG or HEIC image.",
   unreadable: "We couldn't open that photo. Try saving it as a JPG or PNG first.",
   "too-big": "That photo is too large to share. Try a smaller one.",
-  "queue-full":
-    "Lots of photos are waiting for review right now. Please try again in a day or two.",
+  busy: "Lots of dogs are being shared right now. Please try again in a few minutes.",
   offline: "We couldn't reach the PawKind server. Check your connection and try again.",
-  "not-allowed": "That review key isn't right.",
+  "not-allowed": "That team key isn't right.",
   failed: "The photo didn't upload. Please try again.",
 };
 
@@ -99,7 +98,7 @@ export function classifyError(error: unknown): WallErrorKind {
     message.includes("could not find the function")
   )
     return "not-ready";
-  if (message.includes("review_queue_full")) return "queue-full";
+  if (message.includes("too_many_uploads") || message.includes("review_queue_full")) return "busy";
   if (message.includes("not_allowed")) return "not-allowed";
   if (status === "413" || message.includes("payload too large") || message.includes("exceeded"))
     return "too-big";
@@ -292,6 +291,6 @@ export async function moderate(
     _status: status,
   });
   if (error) throw new WallError(classifyError(error));
-  // Rejected files are deleted so they don't stay reachable.
+  // Taken-down files are deleted so they don't stay reachable.
   if (status === "rejected") await supabase.storage.from(WALL_BUCKET).remove([post.photo_path]);
 }

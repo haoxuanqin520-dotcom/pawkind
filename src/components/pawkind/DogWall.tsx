@@ -45,20 +45,29 @@ export function DogWall() {
       .catch(() => setMine([]));
   }, []);
 
-  useEffect(() => {
-    let alive = true;
+  const refreshWall = useCallback(() => {
     listWall(60)
-      .then((posts) => alive && setWall(posts))
+      .then((posts) => {
+        setWall(posts);
+        setWallError(null);
+      })
       .catch((error) => {
-        if (!alive) return;
-        setWall([]);
+        setWall((current) => current ?? []);
         setWallError(classifyError(error));
       });
+  }, []);
+
+  useEffect(() => {
+    refreshWall();
     refreshMine();
-    return () => {
-      alive = false;
-    };
-  }, [refreshMine]);
+  }, [refreshWall, refreshMine]);
+
+  const afterShare = useCallback(() => {
+    refreshWall();
+    refreshMine();
+  }, [refreshWall, refreshMine]);
+
+  const afterTakeDown = afterShare;
 
   return (
     <>
@@ -67,8 +76,8 @@ export function DogWall() {
           <div className="wall-hero-copy">
             <h1 id="wall-title">The PawKind dog wall.</h1>
             <p className="wall-lede">
-              Show us who the bowl is for. Share a photo of your dog, and once our team has checked
-              it, it joins the wall below.
+              Show us who the bowl is for. Share a photo of your dog and it joins the wall below
+              straight away.
             </p>
             <ul className="wall-promises">
               <li>We only ask for your dog's name. Nothing about you.</li>
@@ -76,11 +85,11 @@ export function DogWall() {
               <li>You can take your photo down at any time from this browser.</li>
             </ul>
           </div>
-          <WallUploader onShared={refreshMine} disabled={wallError === "not-ready"} />
+          <WallUploader onShared={afterShare} disabled={wallError === "not-ready"} />
         </div>
       </section>
 
-      {mine.length > 0 && <MyPhotos posts={mine} onChange={refreshMine} />}
+      {mine.length > 0 && <MyPhotos posts={mine} onChange={afterTakeDown} />}
 
       <section className="wall-gallery" aria-labelledby="gallery-title">
         <div className="wrap">
@@ -205,8 +214,10 @@ function WallUploader({ onShared, disabled }: { onShared: () => void; disabled: 
           <img src={state.preview} alt={`Your photo of ${state.name}`} />
         </div>
         <CheckCircle2 className="wall-done-icon" aria-hidden="true" />
-        <h2>Thanks! {possessive(state.name)} photo is waiting for review.</h2>
-        <p>Our team checks every photo before it goes on the wall. You'll see its status below.</p>
+        <h2>{possessive(state.name)} photo is on the wall.</h2>
+        <p>
+          Thanks for sharing. You can find it below, and take it down any time from this browser.
+        </p>
         <button type="button" className="btn btn-outline" onClick={reset}>
           Share another dog
         </button>

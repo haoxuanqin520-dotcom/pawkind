@@ -23,8 +23,7 @@ export function WallTeaser() {
         <div className="wall-teaser-copy">
           <h2 id="wall-teaser-title">Who's the bowl for?</h2>
           <p>
-            Owners share their dogs on the PawKind wall. Our team checks every photo before it
-            appears.
+            Owners share their dogs on the PawKind wall. Add yours and it shows up straight away.
           </p>
           <a className="btn btn-outline" href="/wall">
             Add your dog to the wall

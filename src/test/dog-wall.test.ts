@@ -25,7 +25,7 @@ describe("dog wall helpers", () => {
   });
 
   it("recognises the database's own error messages", () => {
-    expect(classifyError({ message: "review_queue_full" })).toBe("queue-full");
+    expect(classifyError({ message: "too_many_uploads" })).toBe("busy");
     expect(classifyError({ message: "not_allowed" })).toBe("not-allowed");
     expect(classifyError({ message: "Payload too large", statusCode: "413" })).toBe("too-big");
     expect(classifyError(new TypeError("Failed to fetch"))).toBe("offline");

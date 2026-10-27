@@ -8,8 +8,9 @@
 - [x] Nutrition and trust FAQ with an honest testing list.
 - [ ] Replace placeholder ingredient sources and testing status with the team's real data.
 - [ ] Decide how to count trial applications now that the A/B counters are archived.
-- [x] Public dog wall with team review before photos appear (`/wall`, `/wall-review`).
-- [ ] Apply `docs/dog-wall.sql` in Lovable Cloud to switch the dog wall on.
+- [x] Public dog wall; photos appear straight away, team can take them down (`/wall`, `/wall-review`).
+- [x] Apply `docs/dog-wall.sql` in Lovable Cloud to switch the dog wall on.
+- [ ] Apply `docs/dog-wall-update-1-no-review.sql` so photos appear without review.
 
 # PawKind A/B demo
 - [x] Remove all cat imagery, copy and recipe/species options; keep dog-only demo guidance.

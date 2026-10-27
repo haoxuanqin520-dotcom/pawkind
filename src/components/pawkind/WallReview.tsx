@@ -69,8 +69,11 @@ export function WallReview() {
     return (
       <section className="review-section">
         <div className="wrap review-narrow">
-          <h1>Review dog wall photos</h1>
-          <p>For the PawKind team. Enter the review key to see photos waiting for approval.</p>
+          <h1>Manage dog wall photos</h1>
+          <p>
+            For the PawKind team. Photos go on the wall as soon as they're shared; enter the key to
+            take down any that shouldn't be there.
+          </p>
           <form
             className="review-key"
             onSubmit={(event: FormEvent<HTMLFormElement>) => {
@@ -80,11 +83,11 @@ export function WallReview() {
             }}
           >
             <label className="field">
-              <span>Review key</span>
+              <span>Team key</span>
               <input name="key" type="password" autoComplete="off" required />
             </label>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? "Checking…" : "Open review"}
+              {loading ? "Checking…" : "Manage photos"}
             </button>
           </form>
           {error && (
@@ -104,7 +107,7 @@ export function WallReview() {
     <section className="review-section">
       <div className="wrap">
         <div className="review-head">
-          <h1>Review dog wall photos</h1>
+          <h1>Manage dog wall photos</h1>
           <button type="button" className="text-link" onClick={signOut}>
             Sign out
           </button>
@@ -115,49 +118,49 @@ export function WallReview() {
           </p>
         )}
 
-        <h2>
-          Waiting for review <span className="review-count">{pending.length}</span>
-        </h2>
-        {pending.length === 0 ? (
-          <p className="wall-empty">Nothing waiting. New photos will show up here.</p>
-        ) : (
-          <div className="wall-grid">
-            {pending.map((post) => (
-              <WallFrame
-                key={post.id}
-                name={post.dog_name}
-                breed={post.breed}
-                path={post.photo_path}
-                eager
-              >
-                <div className="review-actions">
-                  <button
-                    type="button"
-                    className="btn btn-small btn-primary"
-                    disabled={busy === post.id}
-                    onClick={() => void decide(post, "approved")}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-small btn-outline"
-                    disabled={busy === post.id}
-                    onClick={() => void decide(post, "rejected")}
-                  >
-                    Reject
-                  </button>
-                </div>
-              </WallFrame>
-            ))}
-          </div>
+        {pending.length > 0 && (
+          <>
+            <h2>
+              Waiting <span className="review-count">{pending.length}</span>
+            </h2>
+            <div className="wall-grid">
+              {pending.map((post) => (
+                <WallFrame
+                  key={post.id}
+                  name={post.dog_name}
+                  breed={post.breed}
+                  path={post.photo_path}
+                  eager
+                >
+                  <div className="review-actions">
+                    <button
+                      type="button"
+                      className="btn btn-small btn-primary"
+                      disabled={busy === post.id}
+                      onClick={() => void decide(post, "approved")}
+                    >
+                      Put on the wall
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-small btn-outline"
+                      disabled={busy === post.id}
+                      onClick={() => void decide(post, "rejected")}
+                    >
+                      Take down
+                    </button>
+                  </div>
+                </WallFrame>
+              ))}
+            </div>
+          </>
         )}
 
         <h2>
           On the wall <span className="review-count">{approved.length}</span>
         </h2>
         {approved.length === 0 ? (
-          <p className="wall-empty">No approved photos yet.</p>
+          <p className="wall-empty">No photos on the wall yet.</p>
         ) : (
           <div className="wall-grid">
             {approved.map((post) => (
@@ -182,8 +185,7 @@ export function WallReview() {
           </div>
         )}
         <p className="review-note">
-          Rejecting or taking down a photo deletes the file. Owners can also take down their own
-          photos.
+          Taking a photo down deletes the file. Owners can also take down their own photos.
         </p>
       </div>
     </section>

@@ -22,6 +22,6 @@
 - Lovable Cloud: `public.trial_counters` and `record_trial_event` hold the archived A/B results. The site no longer writes to them.
 - Dog wall (`/wall`, team-only `/wall-review`, homepage `WallTeaser`):
   - Backend setup lives in `docs/dog-wall.sql` and is applied in Lovable Cloud. Visitors only reach the data through its functions (`submit_dog_wall_post`, `list_dog_wall`, `my_dog_wall_posts`, `remove_dog_wall_post`); never add direct table access.
-  - Every photo stays "pending" until the team approves it on `/wall-review` with the review key. Do not add auto-approval.
+  - Photos go on the wall as soon as they are shared (team decision, `docs/dog-wall-update-1-no-review.sql`). The team can take any photo down on `/wall-review` with the team key. The site accepts at most 40 new photos per 10 minutes.
   - Photos are resized and re-encoded in the browser (`dog-wall.ts`), which strips location data. Only the dog's name and an optional breed are collected, nothing about the owner.
   - Each browser keeps a random owner token so owners can take their own photos down.
